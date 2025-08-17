@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market Trend Prediction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Define the animation keyframes */
+        @keyframes animateGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Base styles for A3 Print Layout */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Dark blue fallback for screen */
+        }
+        .poster-container {
+            width: 29.7cm; /* A3 Width */
+            height: 42cm; /* A3 Height */
+            box-sizing: border-box;
+            margin: 2rem auto;
+            padding: 2.5rem; /* Increased padding */
+            color: #f0e2e2; /* Default light text color */
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            border-radius: 1rem; /* Kept for on-screen preview aesthetics */
+            
+            /* DYNAMIC GRADIENT BACKGROUND */
+            background: linear-gradient(-45deg, #0f172a, #1e293b, #312e81, #134e4a);
+            background-size: 400% 400%;
+            animation: animateGradient 20s ease infinite; /* Apply the animation */
+        }
+        .poster-header {
+            text-align: center;
+            border-bottom: 2px solid #ca8a04; /* Rich amber accent */
+            padding-bottom: 1.5rem;
+            background-color: rgba(15, 23, 42, 0.2); /* Make header slightly more opaque */
+        }
+.poster-header h1 {
+    font-size: 2.8rem;
+    font-weight: 800; /* Or 900 if your font supports it */
+    letter-spacing: 0.04em; /* Widen spacing slightly for uppercase */
+    text-transform: uppercase; /* Make it impactful */
+    
+    /* A more vibrant, multi-stop gradient for a metallic feel */
+    background: -webkit-linear-gradient(45deg, #f59e0b, #fde047, #facc15, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* THIS IS THE KEY: Add a crisp outline for print */
+    -webkit-text-stroke: 0.5px #fefce8; /* A thin, bright-yellow/white outline */
+    /* Remove the old shadow property */
+}
+        .poster-header p {
+            font-size: 1.125rem;
+            color: #94a3b8; /* Lighter slate for subtitle */
+            margin-top: 0.5rem;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .section-title {
+            font-size: 1.6rem; /* Increased size */
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffcc70, #ff6347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            border-left: 4px solid #ca8a04;
+            padding-left: 1rem;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            flex-grow: 1;
+        }
+        .card {
+            /* Semi-transparent cards for a layered effect */
+            background-color: rgba(30, 41, 59, 0.7);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 198, 10, 0.466); /* Subtle border */
+            backdrop-filter: blur(5px); /* Frosted glass effect */
+        }
+        .info-boxes {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 1.5rem;
+        }
+        .info-box {
+            border: 1px solid #475569;
+            background-color: rgba(30, 41, 59, 0.5); /* Add slight background to info boxes */
+            backdrop-filter: blur(5px);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+            flex: 1;
+        }
+        .info-box h3 {
+            font-weight: 700;
+            color: #ffd700; /* Amber heading */
+            margin-bottom: 0.5rem;
+        }
+        .info-box p, .info-box h5, .info-box h6 {
+            font-size: 0.9rem;
+            color: #cbd5e1; /* Lighter gray for content */
+            line-height: 1.4;
+        }
+        .stats-table img, .dataset-summary-img {
+            width: 100%;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            border: 1px solid #475569; /* Frame the images */
+        }
+        .findings-list {
+            list-style-type: '🌟'; /* Changed to a star */
+            padding-left: 1.5rem;
+        }
+        .findings-list li {
+            padding-left: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: white;
+        }
+        .tools-list {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+        .tool-badge {
+            background: linear-gradient(45deg, #dbeafe, #ffe4b5);
+            color: #1e293b;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+        }
+        /* Update text colors for readability on dark background */
+        .card ul, .card p {
+            color: white;
+        }
+        .card h3 {
+             color: #e2e8f0;
+        }
+    </style>
+    <!--########################################################################-->
+    <style>
+        @media print {
+            /* This code ONLY runs when you print */
+            body, html {
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 29.7cm;
+                height: 42cm;
+                /* Crucial for printing dark backgrounds */
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .poster-container {
+                margin: 0 !important;
+                padding: 2.5rem !important; /* Keep padding for print margins */
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                width: 100%;
+                height: 100%;
+                transform: scale(1);
+                transform-origin: top left;
+                /* Use a static gradient for printing */
+                background: linear-gradient(-45deg, #0f172a, #1e293b, #312e81, #134e4a) !important;
+                animation: none !important; /* Disable animation for print */
+            }
+            .card, .info-box {
+                /* Solid color for better printing performance */
+                background-color: #1e293b !important;
+                backdrop-filter: none !important;
+            }
+            
+            
+            
+        }
+    </style>
+<!--########################################################################-->
+</head>
+<body>
+    <div class="poster-container">
+        <!-- Header Section -->
+        <header class="poster-header">
+            <h1>Stock Market Trend Prediction</h1>
+            <p>ML-based stock price forecasting using historical trends and technical analysis.</p>
+        </header>
+
+        <!-- Info Boxes Section -->
+        <section class="info-boxes">
+            <div class="info-box">
+                <h3>Batch 6</h3>
+                <p>
+                   <p><strong>RA2311003011411, RA2311003011415,<br>RA2311003011416, RA2311003011419</strong></p>
+                </p>
+            </div>
+            <div class="info-box">
+                <h3>SDG 8</h3>
+                <p>Decent Work and Economic Growth</p>
+            </div>
+            <div class="info-box">
+                <h3>Mentor</h3>
+                <p>
+                    Dr.Padmini S<br>
+                    Associate Professor, C.Tech, SRMIST
+                </p>
+            </div>
+        </section>
+
+        <main class="flex-grow grid-container">
+            <!-- Left Column -->
+            <div class="flex flex-col gap-6">
+                <!-- Dataset Summary -->
+                <div class="card">
+                    <h2 class="section-title">Dataset Summary</h2>
+                     <ul class="list-disc list-inside space-y-1">
+                        <li><strong>Name:</strong> POWERGRID (POWERGRID.NS) Historical Data</li>
+                        <li><strong>Source:</strong> Yahoo Finance</li>
+                        <li><strong>Period:</strong> User-defined</li>
+                        <li><strong>Dimensions:</strong> 7 Columns & Flexible rows</li>
+                        <li><strong>Data Types:</strong> Date/Time, Numerical (Float)</li>
+                    </ul>
+                    <h3 class="font-semibold mt-4">Sample Table</h3>
+                    <img src="images/dataset.png" alt="Sample Data Table" class="w-full rounded-lg shadow-md mt-2 dataset-summary-img" onerror="this.onerror=null;this.src='https://placehold.co/800x200/DBEAFE/1E40AF?text=Sample+Data+Table';">
+                </div>
+
+                <!-- Descriptive Statistics -->
+                <div class="card stats-table">
+                    <h2 class="section-title">Descriptive Statistics</h2>
+                    <p>A statistical breakdown of the closing prices for POWERGRID stock over the analyzed period.Includes Mean,Median,Mode,Min,Max,Range,Sd,etc.</p>
+                    <img src="images/DescSummry.png" alt="Descriptive Statistics Table" onerror="this.onerror=null;this.src='https://placehold.co/600x200/DBEAFE/1E40AF?text=Statistics+Table';">
+                </div>
+                <!-- Flow Chart -->
+                <div class="card stats-table">
+                    <h2 class="section-title">Flow Chart</h2>
+                    <img src="images/flowchart2.png" alt="Flow Chart" onerror="this.onerror=null;this.src='https://placehold.co/600x200/DBEAFE/1E40AF?text=Flow+Chart';">
+                </div>
+                <!-- Tools Used -->
+                <div class="card">
+                    <h2 class="section-title">Tools & Technologies</h2>
+                    <div class="tools-list">
+                        <span class="tool-badge">Pandas</span>
+                        <span class="tool-badge">Numpy</span>
+                        <span class="tool-badge">Matplotlib</span>
+                        <span class="tool-badge">yFinance</span>
+                        <span class="tool-badge">Scikit-learn</span>
+                        <span class="tool-badge">Keras</span>
+                        <span class="tool-badge">TensorFlow</span>
+                        <span class="tool-badge">Flask</span>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Right Column -->
+            <div class="flex flex-col gap-6">
+                <!-- Visualizations -->
+                <div class="card">
+                    <h2 class="section-title">Visualizations</h2>
+                    <div class="space-y-4">
+                        <p class="text-sm font-medium">Closing Price vs Time with EMA</p>
+                        <img src="images/ClosingPrice20-50.png" alt="Closing Price vs Time with EMA" class="w-full rounded-lg shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/600x400/DBEAFE/1E40AF?text=Price+Chart';">
+                       <img src="images/ClosingPrice100-200.png" alt="Prediction vs Original Trend" class="w-full rounded-lg shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/600x400/DBEAFE/1E40AF?text=Prediction+Chart';">
+                       <p class="text-sm font-medium">Prediction vs. Original Trend</p>
+                        <img src="images/PredVsOrigTrnd.png" alt="Prediction vs Original Trend" class="w-full rounded-lg shadow-md" onerror="this.onerror=null;this.src='https://placehold.co/600x400/DBEAFE/1E40AF?text=Prediction+Chart';">
+                    </div>
+                </div>
+
+                <!-- Key Findings -->
+                <div class="card">
+                    <h2 class="section-title">Key Findings</h2>
+                    <ul class="findings-list">
+                        <li>The stock shows a consistent long-term upward trend, with a sharp increase from 2016 to 2017.</li>
+                        <li>The 20-day and 50-day EMAs are effective indicators for tracking the price trend direction.</li>
+                        <li>The LSTM model successfully captures the general trend, though with some deviation in daily volatility.</li>
+                        <li>The stock shows high volatility with large price swings.</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
